@@ -23,7 +23,6 @@ android {
         }
         create("fdroid") {
             dimension = "store"
-            signingConfig signingConfigs.debug   // use debug signing to bypass release keystore
         }
     }
 

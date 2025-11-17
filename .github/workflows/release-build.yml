@@ -42,21 +42,11 @@ jobs:
         run: |
           flutter build apk --release --flavor fdroid --split-per-abi \
             --target-platform android-arm64
-          cp build/app/outputs/flutter-apk/app-arm64-v8a-fdroid-release.apk app-release-unsigned.apk
 
-      # You must add your keystore, alias and passwords as GitHub Secrets.
-      # F-Droid WILL NOT use the signed version. This is only for GitHub releases.
-      - name: Sign APK
-        uses: r0adkll/sign-android-release@v1
-        with:
-          releaseDirectory: .
-          signingKeyBase64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
-          alias: ${{ secrets.ANDROID_KEY_ALIAS }}
-          keyStorePassword: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
-          keyPassword: ${{ secrets.ANDROID_KEY_PASSWORD }}
-
-      - name: Rename signed APK
-        run: mv app-release.apk sossoldi-fdroid-${{ github.event.release.tag_name }}-arm64.apk
+      - name: Rename APK
+        run: |
+          mv build/app/outputs/flutter-apk/app-arm64-v8a-fdroid-release.apk \
+             sossoldi-${{ github.event.release.tag_name }}-arm64.apk
 
       - name: Upload to Release
         uses: softprops/action-gh-release@v1

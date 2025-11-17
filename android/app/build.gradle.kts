@@ -23,6 +23,7 @@ android {
         }
         create("fdroid") {
             dimension = "store"
+            signingConfig signingConfigs.debug   // use debug signing to bypass release keystore
         }
     }
 
@@ -64,9 +65,7 @@ android {
     buildTypes {
 
         release {
-            if (!gradle.startParameter.taskNames.any { it.toLowerCase().contains("fdroid") }) {
-                signingConfig = signingConfigs.getByName("release")
-            }
+            signingConfig = signingConfigs.getByName("release")
             isMinifyEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
         }

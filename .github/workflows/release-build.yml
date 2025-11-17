@@ -41,6 +41,15 @@ jobs:
           keyPassword=${ANDROID_KEY_PASSWORD}
           EOF
 
+      - name: Debug key.properties
+        run: cat key.properties
+
+      - name: Debug keystore
+        run: ls -la android/app
+
+      - name: Debug keystore2
+        run: pwd
+
       - name: Build FDroid APK (arm64)
         run: |
           flutter build apk --release --flavor fdroid --split-per-abi \

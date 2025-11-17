@@ -23,7 +23,6 @@ android {
         }
         create("fdroid") {
             dimension = "store"
-            signingConfig null
         }
     }
 
@@ -65,7 +64,9 @@ android {
     buildTypes {
 
         release {
-            signingConfig = signingConfigs.getByName("release")
+            if (!gradle.startParameter.taskNames.any { it.toLowerCase().contains("fdroid") }) {
+                signingConfig = signingConfigs.getByName("release")
+            }
             isMinifyEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
         }

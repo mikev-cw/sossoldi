@@ -27,12 +27,12 @@ jobs:
 
       - name: Decode keystore
         run: |
-          echo "$ANDROID_KEYSTORE_BASE64" | base64 --decode > android/keystore.jks
+          echo "$ANDROID_KEYSTORE_BASE64" | base64 --decode > android/app/keystore.jks
 
       - name: Create key.properties
         run: |
           cat <<EOF > android/key.properties
-          storeFile=keystore.jks
+          storeFile=app/keystore.jks
           storePassword=$ANDROID_KEYSTORE_PASSWORD
           keyAlias=$ANDROID_KEY_ALIAS
           keyPassword=$ANDROID_KEY_PASSWORD

@@ -23,6 +23,7 @@ android {
         }
         create("fdroid") {
             dimension = "store"
+            signingConfig null
         }
     }
 

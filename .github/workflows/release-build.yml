@@ -36,9 +36,9 @@ jobs:
         run: |
           cat <<EOF > key.properties
           storeFile=android/app/keystore.jks
-          storePassword=${ANDROID_KEYSTORE_PASSWORD}
-          keyAlias=${ANDROID_KEY_ALIAS}
-          keyPassword=${ANDROID_KEY_PASSWORD}
+          storePassword=FAKE_ANDROID_KEYSTORE_PASSWORD
+          keyAlias=FAKE_ANDROID_KEY_ALIAS
+          keyPassword=FAKE_ANDROID_KEY_PASSWORD
           EOF
 
       - name: Debug key.properties

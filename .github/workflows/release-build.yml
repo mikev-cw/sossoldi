@@ -36,6 +36,7 @@ jobs:
           storePassword=$ANDROID_KEYSTORE_PASSWORD
           keyAlias=$ANDROID_KEY_ALIAS
           keyPassword=$ANDROID_KEY_PASSWORD
+          storeType=pkcs12
           EOF
 
       - name: Build FDroid APK (arm64)

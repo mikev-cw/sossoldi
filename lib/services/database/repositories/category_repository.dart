@@ -66,7 +66,8 @@ class CategoryRepository {
 
     final result = await db.query(
       categoryTransactionTable,
-      where: '${CategoryTransactionFields.parent} IS NULL',
+      where:
+          '${CategoryTransactionFields.parent} IS NULL AND ${CategoryTransactionFields.deletedAt} IS NULL',
       orderBy: orderByASC,
     );
 
@@ -78,7 +79,8 @@ class CategoryRepository {
 
     final result = await db.query(
       categoryTransactionTable,
-      where: '${CategoryTransactionFields.parent} = ?',
+      where:
+          '${CategoryTransactionFields.parent} = ? AND ${CategoryTransactionFields.deletedAt} IS NULL',
       whereArgs: [categoryId],
       orderBy: orderByASC,
     );
@@ -164,10 +166,7 @@ class CategoryRepository {
     );
   }
 
-  Future<void> deleteById(
-    CategoryTransaction item, {
-    bool isSub = false,
-  }) async {
+  Future<void> deleteById(CategoryTransaction item) async {
     final db = await _sossoldiDB.database;
 
     await db.update(
@@ -177,23 +176,19 @@ class CategoryRepository {
       whereArgs: [item.id],
     );
 
-    await db
-        .query(
-          categoryTransactionTable,
-          where:
-              '${CategoryTransactionFields.parent} = ? AND ${CategoryTransactionFields.deletedAt} IS NULL',
-          whereArgs: [item.id],
-        )
-        .then((subcategories) async {
-          for (final subcategory in subcategories) {
-            await deleteById(
-              CategoryTransaction.fromJson(subcategory),
-              isSub: true,
-            );
-          }
-        });
-
-    if (!isSub) {
+    if (item.parent == null) {
+      await db
+          .query(
+            categoryTransactionTable,
+            where:
+                '${CategoryTransactionFields.parent} = ? AND ${CategoryTransactionFields.deletedAt} IS NULL',
+            whereArgs: [item.id],
+          )
+          .then((subcategories) async {
+            for (final subcategory in subcategories) {
+              await deleteById(CategoryTransaction.fromJson(subcategory));
+            }
+          });
       await normalizeOrders();
     }
   }

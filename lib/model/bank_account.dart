@@ -114,9 +114,9 @@ class BankAccount extends BaseEntity {
     BankAccountFields.symbol: symbol,
     BankAccountFields.color: color,
     BankAccountFields.startingValue: startingValue.toCurrency().toNum(),
-    BankAccountFields.active: active ? 1 : 0,
-    BankAccountFields.countNetWorth: countNetWorth ? 1 : 0,
-    BankAccountFields.mainAccount: mainAccount ? 1 : 0,
+    BankAccountFields.active: active && !delete ? 1 : 0,
+    BankAccountFields.countNetWorth: countNetWorth && !delete ? 1 : 0,
+    BankAccountFields.mainAccount: mainAccount && !delete ? 1 : 0,
     BankAccountFields.order: delete ? 0 : order,
     BaseEntityFields.createdAt: update || delete
         ? createdAt?.toIso8601String()

@@ -27,7 +27,7 @@ class ConfirmAccountDeletionDialog extends StatelessWidget {
             'Are you sure you want to delete the account named "${account.name}"?',
           ),
           const Text(
-            'All recurring transactions linked to this account will be stopped.',
+            'All recurring transactions linked to this account will be deleted.',
           ),
           const SizedBox(height: Sizes.md),
           const Text('This action cannot be undone.'),

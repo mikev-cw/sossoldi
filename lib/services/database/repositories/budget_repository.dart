@@ -27,15 +27,20 @@ class BudgetRepository {
     final db = await _sossoldiDB.database;
 
     final exists = await checkIfExists(item);
+    int itemId = item.id ?? 0;
+
     if (exists) {
-      await db.rawQuery(
-        "UPDATE $budgetTable SET ${BudgetFields.amountLimit} = ${item.amountLimit} AND ${BudgetFields.active} = 1 WHERE idCategory = ${item.idCategory}",
+      await db.update(
+        budgetTable,
+        {BudgetFields.amountLimit: item.amountLimit, BudgetFields.active: 1},
+        where: '${BudgetFields.idCategory} = ?',
+        whereArgs: [item.idCategory],
       );
     } else {
-      await db.insert(budgetTable, item.toJson());
+      itemId = await db.insert(budgetTable, item.toJson());
     }
 
-    return item.copy(id: item.id);
+    return item.copy(id: itemId);
   }
 
   Future<bool> checkIfExists(Budget item) async {
@@ -43,7 +48,7 @@ class BudgetRepository {
 
     try {
       final exists = await db.rawQuery(
-        "SELECT * FROM $budgetTable WHERE ${item.idCategory} = idCategory",
+        "SELECT * FROM $budgetTable WHERE ${BudgetFields.idCategory} = ${item.idCategory}",
       );
       if (exists.isNotEmpty) {
         return true;

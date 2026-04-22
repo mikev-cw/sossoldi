@@ -166,14 +166,15 @@ class Categories extends _$Categories {
       }
 
       await ref.read(categoryRepositoryProvider).deleteById(category);
-      ref.invalidate(selectedSubcategoryProvider);
-      ref.invalidate(categoryMapProvider);
-      ref.invalidate(
-        subcategoriesProvider(ref.read(selectedCategoryProvider)!.id!),
-      );
       ref.invalidate(recurringTransactionsProvider);
       ref.invalidate(budgetsProvider);
       ref.invalidate(monthlyBudgetsStatsProvider);
+      ref.invalidate(selectedSubcategoryProvider);
+      ref.invalidate(categoryMapProvider);
+      ref.invalidate(categoriesByTypeProvider(category.type));
+      ref.invalidate(
+        subcategoriesProvider(ref.read(selectedCategoryProvider)!.id!),
+      );
       return _getCategories();
     });
   }

@@ -27,7 +27,7 @@ class ConfirmCategoryDeletionDialog extends StatelessWidget {
             'Are you sure you want to delete the category named "${category.name}"?',
           ),
           const Text(
-            'All recurring transactions linked to this category will be stopped.',
+            'All recurring transactions and budgets linked to this category will be deleted.',
           ),
           const SizedBox(height: Sizes.md),
           const Text('This action cannot be undone.'),
